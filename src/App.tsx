@@ -28,7 +28,10 @@ import {
   FileText,
   Menu,
   Box,
-  Activity
+  Activity,
+  Lightbulb,
+  Calculator,
+  SlidersHorizontal
 } from 'lucide-react';
 import TechnicalSpecs from './components/TechnicalSpecs';
 import Gallery from './components/Gallery';
@@ -37,6 +40,8 @@ import LiveStats from './components/LiveStats';
 import LanguageSelector from './components/LanguageSelector';
 import Robot3DViewer from './components/Robot3DViewer';
 import LiveBeachMonitoring from './components/LiveBeachMonitoring';
+import CostSimulator from './components/CostSimulator';
+import BotConfigurator from './components/BotConfigurator';
 import { useLanguage } from './hooks/useLanguage';
 
 function App() {
@@ -46,6 +51,8 @@ function App() {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [show3DViewer, setShow3DViewer] = useState(false);
   const [showMonitoring, setShowMonitoring] = useState(false);
+  const [showCostSimulator, setShowCostSimulator] = useState(false);
+  const [showBotConfigurator, setShowBotConfigurator] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -182,7 +189,7 @@ function App() {
     setDemoSubmitStatus('idle');
 
     try {
-      const response = await fetch('https://formspree.io/f/xqabwogy', {
+      const response = await fetch('https://formspree.io/f/movkblrz', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -219,7 +226,7 @@ function App() {
     setSubmitStatus('idle');
 
     try {
-      const response = await fetch('https://formspree.io/f/xqabwogy', {
+      const response = await fetch('https://formspree.io/f/movkblrz', { // 👈 Replace with your new Formspree endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -336,7 +343,7 @@ function App() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
+            <div className="flex-shrink-0 flex items-center space-x-3">
               <img 
                 src="/logo-alt-dark-transparent.png" 
                 alt="PlastiFind Logo" 
@@ -346,61 +353,75 @@ function App() {
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-4 text-sm font-medium">
               <button 
                 onClick={handleLogoClick}
-                className={`transition-colors hover:scale-105 transform duration-200 ${currentPage === 'home' ? 'text-sky-500' : 'text-gray-600 hover:text-sky-500'}`}
+                className={`transition-colors hover:scale-105 transform duration-200 ${currentPage === 'home' ? 'text-sky-500' : 'text-gray-700 hover:text-sky-500'}`}
               >
                 {t.nav.home}
               </button>
               <button 
                 onClick={() => handleNavClick('about')}
-                className="text-gray-600 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+                className="text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
               >
                 {t.nav.about}
               </button>
               <button 
                 onClick={() => handleNavClick('how-it-works')}
-                className="text-gray-600 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+                className="text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
               >
                 {t.nav.howItWorks}
               </button>
                       <button 
                         onClick={() => setCurrentPage('gallery')}
-                        className={`transition-colors hover:scale-105 transform duration-200 ${currentPage === 'gallery' ? 'text-sky-500' : 'text-gray-600 hover:text-sky-500'}`}
+                        className={`transition-colors hover:scale-105 transform duration-200 ${currentPage === 'gallery' ? 'text-sky-500' : 'text-gray-700 hover:text-sky-500'}`}
                       >
                         Gallery
                       </button>
               <button 
                 onClick={() => setCurrentPage('specs')}
-                className={`flex items-center space-x-1 transition-all duration-200 hover:scale-105 transform ${currentPage === 'specs' ? 'text-sky-500' : 'text-gray-600 hover:text-sky-500'}`}
+                className={`flex items-center space-x-1 transition-all duration-200 hover:scale-105 transform ${currentPage === 'specs' ? 'text-sky-500' : 'text-gray-700 hover:text-sky-500'}`}
               >
                 <FileText className="w-4 h-4" />
                 <span>{t.nav.techSpecs}</span>
               </button>
               <button 
                 onClick={() => setShow3DViewer(true)}
-                className="flex items-center space-x-1 text-gray-600 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+                className="flex items-center space-x-1 text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
               >
                 <Box className="w-4 h-4" />
                 <span>3D Model</span>
               </button>
               <button 
                 onClick={() => setShowMonitoring(true)}
-                className="flex items-center space-x-1 text-gray-600 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+                className="flex items-center space-x-1 text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
               >
                 <Activity className="w-4 h-4" />
                 <span>Live Demo</span>
               </button>
               <button 
+                onClick={() => setShowCostSimulator(true)}
+                className="flex items-center space-x-1 text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+              >
+                <Calculator className="w-4 h-4" />
+                <span>Cost Simulator</span>
+              </button>
+              <button 
+                onClick={() => setShowBotConfigurator(true)}
+                className="flex items-center space-x-1 text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                <span>Build Your Bot</span>
+              </button>
+              <button 
                 onClick={() => handleNavClick('impact')}
-                className="text-gray-600 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+                className="text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
               >
                 {t.nav.impact}
               </button>
               <button 
                 onClick={() => handleNavClick('contact')}
-                className="text-gray-600 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
+                className="text-gray-700 hover:text-sky-500 transition-all duration-200 hover:scale-105 transform"
               >
                 {t.nav.contact}
               </button>
@@ -541,7 +562,29 @@ function App() {
                 <Activity className="w-4 h-4" />
                 <span>Live Demo</span>
               </button>
-              
+
+              <button 
+                onClick={() => {
+                  setShowCostSimulator(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full text-${isRTL ? 'right' : 'left'} px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-sky-600 transition-all duration-200 flex items-center space-x-2`}
+              >
+                <Calculator className="w-4 h-4" />
+                <span>Cost Simulator</span>
+              </button>
+
+              <button 
+                onClick={() => {
+                  setShowBotConfigurator(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full text-${isRTL ? 'right' : 'left'} px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-sky-600 transition-all duration-200 flex items-center space-x-2`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                <span>Build Your Bot</span>
+              </button>
+
               <button 
                 onClick={() => handleNavClick('impact')}
                 className={`w-full text-${isRTL ? 'right' : 'left'} px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-sky-600 transition-all duration-200`}
@@ -603,6 +646,52 @@ function App() {
             </div>
             <div className="p-6">
               <LiveBeachMonitoring />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cost Simulator Modal */}
+      {showCostSimulator && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col transform animate-fade-in-up">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-2xl flex-shrink-0">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Cost Simulator</h2>
+                <p className="text-gray-600">Estimate the cost for your beach cleaning project.</p>
+              </div>
+              <button 
+                onClick={() => setShowCostSimulator(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors hover:scale-110 transform duration-200"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <CostSimulator />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bot Configurator Modal */}
+      {showBotConfigurator && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col transform animate-fade-in-up">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-2xl flex-shrink-0">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Build Your Labi-Bot</h2>
+                <p className="text-gray-600">Customize your bot and get an instant cost estimate.</p>
+              </div>
+              <button 
+                onClick={() => setShowBotConfigurator(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors hover:scale-110 transform duration-200"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <BotConfigurator />
             </div>
           </div>
         </div>
@@ -796,32 +885,46 @@ function App() {
             <p className="text-xl sm:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
               {t.hero.description}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center">
               <button 
                 onClick={handleRequestDemo}
-                className="bg-sky-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-sky-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                className="bg-sky-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-sky-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
               >
                 {t.hero.requestDemo}
               </button>
               <button 
                 onClick={handleLearnMore}
-                className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-sky-900 transition-all duration-300 transform hover:scale-105"
+                className="border-2 border-white text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-white hover:text-sky-900 transition-all duration-300 transform hover:scale-105"
               >
                 {t.hero.learnMore}
               </button>
               <button 
                 onClick={() => setShow3DViewer(true)}
-                className="border-2 border-sky-300 text-sky-300 px-8 py-4 rounded-full text-lg font-semibold hover:bg-sky-300 hover:text-sky-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                className="border-2 border-sky-300 text-sky-300 px-6 py-2 rounded-full text-sm font-semibold hover:bg-sky-300 hover:text-sky-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
               >
-                <Box className="w-6 h-6" />
+                <Box className="w-4 h-4" />
                 <span>View 3D Model</span>
               </button>
               <button 
                 onClick={() => setShowMonitoring(true)}
-                className="border-2 border-green-300 text-green-300 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-300 hover:text-green-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                className="border-2 border-green-300 text-green-300 px-6 py-2 rounded-full text-sm font-semibold hover:bg-green-300 hover:text-green-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
               >
-                <Activity className="w-6 h-6" />
+                <Activity className="w-4 h-4" />
                 <span>Live Demo</span>
+              </button>
+              <button 
+                onClick={() => setShowCostSimulator(true)}
+                className="border-2 border-yellow-300 text-yellow-300 px-6 py-2 rounded-full text-sm font-semibold hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+              >
+                <Calculator className="w-4 h-4" />
+                <span>Cost Simulator</span>
+              </button>
+              <button 
+                onClick={() => setShowBotConfigurator(true)}
+                className="border-2 border-indigo-300 text-indigo-300 px-6 py-2 rounded-full text-sm font-semibold hover:bg-indigo-300 hover:text-indigo-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                <span>Build Your Bot</span>
               </button>
             </div>
             {/* Download PDF Button */}
@@ -829,7 +932,7 @@ function App() {
               <a
                 href="/Labi%20bot%20(1)_compressed.pdf"
                 download
-                className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-8 py-4 rounded-full text-lg shadow-lg transition-all duration-300 flex items-center justify-center"
+                className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full text-sm shadow-lg transition-all duration-300 flex items-center justify-center"
               >
                 <FileText className="w-6 h-6 mr-2" />
                 Download Robot Guide (PDF)
@@ -1092,6 +1195,46 @@ function App() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section - NEW */}
+      <section id="team" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Meet the Innovators</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              The passionate team of engineers and environmentalists dedicated to cleaning our coastlines.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-8 lg:gap-16">
+            {/* Example Team Member Card */}
+            <div className="text-center">
+              <img 
+                className="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg" 
+                src="/1.jpg" 
+                alt="Cheith Chouk"
+              />
+              <h3 className="text-xl font-bold text-gray-900">Cheith Chouk</h3>
+              <p className="text-sky-600 font-medium">Robotics Engineer</p>
+              <p className="text-gray-500 mt-2 text-sm">
+                "Bringing intelligent robotics to life to solve real-world environmental challenges is my passion."
+              </p>
+            </div>
+            {/* New Team Member Card */}
+            <div className="text-center">
+              <img 
+                className="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg" 
+                src="/2.png" // Placeholder image
+                alt="Jasser Riahi"
+              />
+              <h3 className="text-xl font-bold text-gray-900">Jasser Riahi</h3>
+              <p className="text-sky-600 font-medium">AI Engineer</p>
+              <p className="text-gray-500 mt-2 text-sm">
+                "Training machines to see and understand our world, one dataset at a time."
+              </p>
             </div>
           </div>
         </div>

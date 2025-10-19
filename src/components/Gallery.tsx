@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Media will be loaded dynamically from public folder
 const photos: string[] = [];
 const videos: string[] = [];
 
-import { useState } from 'react';
 import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
+
 
 
 // List of media files in public folder (update this array as needed)
 const publicMediaFiles = [
-  '01264979-04da-4f68-9020-265fdd39e664.jfif',
+  '1Untitled.jpg',
+  '2Untitled.jpg',
+  '4Untitled.jpg',
   '15Untitled.jpg',
   '1748801160382.jfif',
   '1748801161406.jfif',
   '1748801161725.jfif',
   '1750936868529.mp4',
-  '2025_03_08_13_45_IMG_6736.JPG',
-  '2025_03_15_16_51_IMG_6807.jpg',
+  '2025_03_08_13_45_IMG_6736.JPG',  
+  '2025_03_15_16_51_IMG_6807.jpg',  
   '2025_03_30_03_54_IMG_6989.MOV',
   '2025_03_30_04_33_IMG_6990.MOV',
   '2025_04_12_09_33_IMG_7222.jpg',
@@ -57,10 +59,10 @@ const publicMediaFiles = [
   '2025_05_01_16_49_IMG_7583.jpg',
   '2025_05_01_17_13_IMG_7584.jpg',
   '2025_05_01_17_13_IMG_7585.jpg',
-  'Almost Done ✨ (1).jpg',
-  'Almost Done ✨ (2).jpg',
-  'Almost Done ✨ (3).jpg',
-  'Almost Done ✨.jpg',
+  'Almost Done ✨ (1).jpg',  
+  'Almost Done ✨ (2).jpg',  
+  'Almost Done ✨ (3).jpg',  
+  'Almost Done ✨.jpg',  
   'Almost Done ✨.mp4',
   'WhatsApp Image 2025-07-01 at 15.28.28.jpeg',
   'WhatsApp Image 2025-07-07 at 18.08.35.jpeg',
@@ -76,16 +78,19 @@ const publicMediaFiles = [
 
 const media = publicMediaFiles.map((filename) => {
   const ext = filename.split('.').pop()?.toLowerCase();
-  if (["jpg","jfif","jpeg","png"].includes(ext)) {
-    return { type: 'photo', src: `/${filename}` };
-  } else if (["mp4","webm","mov"].includes(ext)) {
-    return { type: 'video', src: `/${filename}` };
+  if (ext) {
+    if (["jpg", "jpeg", "jfif", "png"].includes(ext)) {
+      return { type: 'photo', src: `/${filename}` };
+    } else if (["mp4", "webm", "mov"].includes(ext)) {
+      return { type: 'video', src: `/${filename}` };
+    }
   }
   return null;
 }).filter(Boolean) as Array<{ type: 'photo' | 'video'; src: string }>;
 
 export default function Gallery() {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const currentMedia = media[currentIdx];
 
   const handlePrev = () => {
@@ -105,6 +110,15 @@ export default function Gallery() {
     document.body.removeChild(link);
   };
 
+  useEffect(() => {
+    if (currentMedia?.type === 'video' && videoRef.current) {
+      // When the source changes, we need to manually load and play the new video.
+      videoRef.current.load();
+      videoRef.current.play().catch(error => {
+        console.error("Video autoplay was prevented:", error);
+      });
+    }
+  }, [currentMedia?.src]);
   return (
     <div className="max-w-xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8 text-center text-sky-600">Robot Gallery</h1>
@@ -127,8 +141,12 @@ export default function Gallery() {
                 />
               ) : (
                 <video
+                  ref={videoRef}
                   src={currentMedia.src}
+                  key={currentMedia.src}
                   controls
+                  autoPlay
+                  muted
                   className="w-full h-72 rounded-lg shadow border border-sky-200 bg-white"
                 />
               )

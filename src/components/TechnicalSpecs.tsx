@@ -229,9 +229,9 @@ const TechnicalSpecs = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              className={`flex items-center space-x-2 px-4 py-2 text-sm rounded-xl font-medium transition-all duration-300 ${
                 activeTab === tab.id
-                  ? 'bg-sky-500 text-white shadow-lg'
+                  ? 'bg-sky-500 text-white shadow-md'
                   : 'text-gray-600 hover:text-sky-500 hover:bg-sky-50'
               }`}
             >
