@@ -345,7 +345,7 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0 flex items-center space-x-3">
               <img 
-                src="/logo-alt-dark-transparent.png" 
+                src="/logo.png" 
                 alt="PlastiFind Logo" 
                 className="h-16 w-auto cursor-pointer transition-transform hover:scale-105"
                 onClick={handleLogoClick}
