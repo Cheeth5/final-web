@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MapContainer, TileLayer, Polygon, useMap, Marker, useMapEvents } from 'react-leaflet';
 import L, { LatLngExpression } from 'leaflet';
-import { HeatmapLayer } from 'react-leaflet-heatmap-layer-v3';
+import 'leaflet.heat';
 import 'leaflet/dist/leaflet.css';
 
 import { pollutionData } from '../data/pollution-data';
@@ -61,6 +61,41 @@ const MapClickHandler = ({ onMapClick }: { onMapClick: (latlng: L.LatLng) => voi
       onMapClick(e.latlng);
     },
   });
+  return null;
+};
+
+// Custom Heatmap Layer Component for React-Leaflet v4
+interface HeatmapProps {
+  points: any[];
+  longitudeExtractor: (p: any) => number;
+  latitudeExtractor: (p: any) => number;
+  intensityExtractor: (p: any) => number;
+  [key: string]: any; // for other leaflet.heat options
+}
+
+const DynamicHeatmapLayer: React.FC<HeatmapProps> = ({
+  points,
+  latitudeExtractor,
+  longitudeExtractor,
+  intensityExtractor,
+  ...options
+}) => {
+  const map = useMap();
+
+  useEffect(() => {
+    const heatData = points.map(p => [
+      latitudeExtractor(p),
+      longitudeExtractor(p),
+      intensityExtractor(p),
+    ]);
+
+    const heatLayer = (L as any).heatLayer(heatData, { ...options }).addTo(map);
+
+    return () => {
+      map.removeLayer(heatLayer);
+    };
+  }, [points, latitudeExtractor, longitudeExtractor, intensityExtractor, options, map]);
+
   return null;
 };
 
@@ -197,7 +232,7 @@ const CostSimulator = () => {
               />
               {heatMapData && heatMapData.data.length > 0 && (
                 <>
-                  <HeatmapLayer
+                  <DynamicHeatmapLayer
                     points={heatMapData.data}
                     longitudeExtractor={(m: any) => m.lng}
                     latitudeExtractor={(m: any) => m.lat}
