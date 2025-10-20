@@ -471,7 +471,7 @@ function App() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
             <img 
-              src="/logo-alt-dark-transparent.png" 
+              src="/logo.png" 
               alt="PlastiFind Logo" 
               className="h-16 w-auto cursor-pointer"
               onClick={handleLogoClick}
@@ -1413,7 +1413,7 @@ function App() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
                 <img 
-                  src="/logo-alt-dark-transparent.png" 
+                  src="/logo.png" 
                   alt="PlastiFind Logo" 
                   className="h-8 w-auto brightness-0 invert cursor-pointer"
                   onClick={handleLogoClick}
